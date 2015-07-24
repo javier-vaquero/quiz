@@ -24,9 +24,9 @@ var sequelize = new Sequelize(DB_name, user, pwd, {
 	host : host,
 	storage : storage, // solo SQLite (.env)
 	omitNull : true, // solo Postgres
-	dialectOptions: { // para conectar desde local a la BBDD de heroku
-        ssl: true
-    }
+	dialectOptions : { // para conectar desde local a la BBDD de heroku
+		ssl : true
+	}
 });
 
 // Importar definicion de la tabla Quiz
@@ -44,6 +44,9 @@ sequelize.sync().then(function() {
 			Quiz.create({
 				pregunta : 'Capital de Italia',
 				respuesta : 'Roma'
+			}, {
+				pregunta : 'Capital de Portugal',
+				respuesta : 'Lisboa'
 			}).then(function() {
 				console.log('Base de datos inicializada');
 			});
