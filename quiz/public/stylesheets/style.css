@@ -40,3 +40,15 @@ nav span {
 table {
 	display: inline-block;
 }
+
+#ErrorMsgs {
+	color: #880000;
+	font-size: smaler;
+}
+
+.error {
+	border: 2px solid red;
+	border-radius: 20px;
+	background-color: #ff8888;
+	padding: 0px;
+}
