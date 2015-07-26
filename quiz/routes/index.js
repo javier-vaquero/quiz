@@ -13,14 +13,18 @@ router.get('/author', function(req, res, next) {
 });
 
 //Autoload de comandos con :quizId
-router.param('quizId', quizController.load);  // autoload :quizId
+router.param('quizId',						quizController.load);
 
-router.get('/quizes', quizController.index);
-router.get('/quizes/:quizId(\\d+)', quizController.question);
-router.get('/quizes/:quizId(\\d+)/answer', quizController.answer);
+router.get('/quizes',						quizController.index);
+router.get('/quizes/:quizId(\\d+)',			quizController.question);
+router.get('/quizes/:quizId(\\d+)/answer',	quizController.answer);
 
-//Gestion
-router.get('/quizes/new',                  quizController.newQuiz);
-router.post('/quizes/create',              quizController.create);
-
+//Gestion:
+//Creacion
+router.get('/quizes/new',					quizController.newQuiz);
+router.post('/quizes/create',				quizController.create);
+//Modificacion
+router.get('/quizes/:quizId(\\d+)/edit',	quizController.edit);
+router.post('/quizes/:quizId(\\d+)/update',	quizController.update);
+ 
 module.exports = router;

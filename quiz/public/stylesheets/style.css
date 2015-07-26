@@ -19,10 +19,6 @@ body {
 	color: black;
 }
 
-section>div {
-	padding: 20px;
-}
-
 header, nav, section {
 	background: #eee;
 	text-align: center;
@@ -38,6 +34,7 @@ nav span {
 }
 
 table {
+	text-align: right;
 	display: inline-block;
 }
 
