@@ -11,6 +11,7 @@
 	<tr>
 		<td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
 		<td><a href="quizes/<%= quizes[i].id %>/edit"><img alt="Editar" title="Editar" src="/images/edit.png"/></a></td>
+		<td><a onClick="return confirm('Borrar: <%= quizes[i].pregunta %>');" href="quizes/<%= quizes[i].id %>/delete"><img alt="Borrar" title="Borrar" src="/images/delete.png"/></a></td>
 	</tr>
 <% } %>
 </table>

@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/author', function(req, res, next) {
-  res.render('author');
+  res.render('author', {errors: []});
 });
 
 //Autoload de comandos con :quizId
@@ -26,5 +26,7 @@ router.post('/quizes/create',				quizController.create);
 //Modificacion
 router.get('/quizes/:quizId(\\d+)/edit',	quizController.edit);
 router.post('/quizes/:quizId(\\d+)/update',	quizController.update);
+//Borrar
+router.get('/quizes/:quizId(\\d+)/delete',     quizController.destroy);
  
 module.exports = router;
