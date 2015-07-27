@@ -14,11 +14,25 @@ exports.load = function(req, res, next, quizId) {
 
 // GET /quizes/
 exports.index = function(req, res) {
+	//Orden de la consulta
 	var query = {order: 'pregunta'};
-	console.info(req.query.search);
+	//Filtros
+	var filters = [];
+	//Si hay que buscar texto lo añadimos a los filtros
 	if(req.query.search) {
 		var search = req.query.search.replace(" ", "%");
-		query.where = ["pregunta like ?", "%"+search+"%"];
+		filters.push(["pregunta like ?", "%"+search+"%"]);
+	}
+	//Si hay que buscar por tema lo añadimos a los filtros
+	if(req.query.subject) {
+		filters.push({tema : req.query.subject});
+	}
+	if(filters.length) {
+		if(filters.length === 2) {
+			query.where = Sequelize.and(filters[0],filters[1]);
+		} else {
+			query.where = filters[0];
+		}
 	}
 	models.Quiz.findAll(query).then(function(quizes) {
 		res.render('quizes/index', {quizes : quizes, errors: []});
@@ -38,7 +52,7 @@ exports.answer = function(req, res) {
 // GET /quizes/new
 exports.newQuiz = function(req, res) {
 	var quiz = models.Quiz.build(
-			{pregunta: "", respuesta: ""}
+			{pregunta: "", respuesta: "", tema: ""}
 	);
 	res.render('quizes/new', {quiz: quiz, errors: []});
 };
@@ -51,7 +65,7 @@ exports.create = function(req, res) {
 			res.render('quizes/new', {quiz: quiz, errors: err.errors});
 		} else {
 			// guarda en DB los campos pregunta y respuesta de quiz
-			quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
+			quiz.save({fields: ["pregunta", "respuesta", "tema"]}).then(function(){
 				// res.redirect: Redirección HTTP a lista de preguntas
 				res.redirect('/quizes');
 			});
@@ -69,11 +83,12 @@ exports.edit = function(req, res) {
 exports.update = function(req, res) {
 	req.quiz.pregunta  = req.body.quiz.pregunta;
 	req.quiz.respuesta = req.body.quiz.respuesta;
+	req.quiz.tema = req.body.quiz.tema;
 	req.quiz.validate().then(function(err){
 		if (err) {
 			res.render('quizes/edit', {quiz: req.quiz, errors: err.errors});
 		} else {
-			req.quiz.save( {fields: ["pregunta", "respuesta"]}).then( function(){res.redirect('/quizes');});
+			req.quiz.save( {fields: ["pregunta", "respuesta", "tema"]}).then( function(){res.redirect('/quizes');});
 		}
 	});
 };

@@ -1,8 +1,18 @@
 <div>
 	<form method="get" action="/quizes">
 		<a href="/quizes/new"><button type="button">Crear pregunta</button></a>
-		Búsqueda:
-		<input type="text" name="search"/>
+		<label for="txtSearch">Búsqueda:</label>
+		<input id="txtSearch" type="text" name="search"/>
+		<label for="subjectSearch">Tema:</label>
+		<select id="subjectSearch" name="subject">
+			<option value="">Todos</option>
+			<option value="otro">Otro</option>
+			<option value="humanidades">Humanidades</option>
+			<option value="ocio">Ocio</option>
+			<option value="ciencia">Ciencia</option>
+			<option value="tecnologia">Tecnología</option>
+		</select>
+		
 		<input type="submit" value="Buscar">
 	</form>
 </div>
@@ -10,6 +20,7 @@
 <% for (var i=0; i < quizes.length; i++) { %>
 	<tr>
 		<td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
+		<td><%= quizes[i].tema.toUpperCase() %></a></td>
 		<td><a href="quizes/<%= quizes[i].id %>/edit"><img alt="Editar" title="Editar" src="/images/edit.png"/></a></td>
 		<td><a onClick="return confirm('Borrar: <%= quizes[i].pregunta %>');" href="quizes/<%= quizes[i].id %>/delete"><img alt="Borrar" title="Borrar" src="/images/delete.png"/></a></td>
 	</tr>
