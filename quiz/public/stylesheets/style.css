@@ -60,3 +60,7 @@ tr {
 	background-color: #ff8888;
 	padding: 0px;
 }
+
+.right {
+	float: right;
+}

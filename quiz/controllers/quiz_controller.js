@@ -2,28 +2,35 @@ var models = require('../models/models.js');
 
 // Autoload - factoriza el código si ruta incluye :quizId
 exports.load = function(req, res, next, quizId) {
-  models.Quiz.findById(quizId).then(
-    function(quiz) {
-      if (quiz) {
-        req.quiz = quiz;
-        next();
-      } else { next(new Error('No existe quizId=' + quizId)); }
-    }
-  ).catch(function(error) { next(error);});
+	models.Quiz.find({
+		where: {
+			id: Number(quizId)
+		},
+		include: [{
+			model: models.Comment
+		}]
+	}).then(function(quiz) {
+		if (quiz) {
+			req.quiz = quiz;
+			next();
+		} else {
+			next(new Error('No existe quizId=' + quizId));
+		}
+	}).catch(function(error) { next(error);});
 };
 
 // GET /quizes/
 exports.index = function(req, res) {
-	//Orden de la consulta
+	// Orden de la consulta
 	var query = {order: 'pregunta'};
-	//Filtros
+	// Filtros
 	var filters = [];
-	//Si hay que buscar texto lo añadimos a los filtros
+	// Si hay que buscar texto lo añadimos a los filtros
 	if(req.query.search) {
 		var search = req.query.search.replace(" ", "%");
 		filters.push(["pregunta like ?", "%"+search+"%"]);
 	}
-	//Si hay que buscar por tema lo añadimos a los filtros
+	// Si hay que buscar por tema lo añadimos a los filtros
 	if(req.query.subject) {
 		filters.push({tema : req.query.subject});
 	}
@@ -93,7 +100,7 @@ exports.update = function(req, res) {
 	});
 };
 
-//DELETE /quizes/:id
+// DELETE /quizes/:id
 exports.destroy = function(req, res) {
 	req.quiz.destroy().then(function() {
 		res.redirect('/quizes');
