@@ -1,6 +1,8 @@
 <div>
 	<form method="get" action="/quizes">
-		<a href="/quizes/new"><button type="button">Crear pregunta</button></a>
+		<%if(session.user){%>
+			<a href="/quizes/new"><button type="button">Crear pregunta</button></a>
+		<%}%>
 		<label for="txtSearch">Búsqueda:</label>
 		<input id="txtSearch" type="text" name="search"/>
 		<label for="subjectSearch">Tema:</label>
@@ -21,8 +23,10 @@
 	<tr>
 		<td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
 		<td><%= quizes[i].tema.toUpperCase() %></a></td>
-		<td><a href="quizes/<%= quizes[i].id %>/edit"><img alt="Editar" title="Editar" src="/images/edit.png"/></a></td>
-		<td><a onClick="return confirm('Borrar: <%= quizes[i].pregunta %>');" href="quizes/<%= quizes[i].id %>/delete"><img alt="Borrar" title="Borrar" src="/images/delete.png"/></a></td>
+		<%if(session.user){%>
+			<td><a href="quizes/<%= quizes[i].id %>/edit"><img alt="Editar" title="Editar" src="/images/edit.png"/></a></td>
+			<td><a onClick="return confirm('Borrar: <%= quizes[i].pregunta %>');" href="quizes/<%= quizes[i].id %>/delete"><img alt="Borrar" title="Borrar" src="/images/delete.png"/></a></td>
+		<%}%>
 	</tr>
 <% } %>
 </table>
